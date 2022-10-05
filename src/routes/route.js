@@ -1,12 +1,16 @@
-const express = require('express')
-const router = express.Router()
-const urlController = require('../controllers/urlController');
+const express = require("express");
+const router = express.Router();
+const {createUrl,getUrl}= require("../controllers/urlController");
+ 
+//===================create api===============================>>>>>
+router.post("/url/shorten",createUrl);
 
-//============================post api for shorten url===================>>>
-router.post('/url/shorten',urlController.shortUrl);
+//=====================get api================================>>>>>
+router.get("/:urlCode",getUrl);
 
-//============================get api for redirect url===================>>>
-router.get('/:urlCode',urlController.getUrl);
+//=====This API is used for handling any invalid Endpoints=====>>>>>
+router.all("/*", async function (req, res) {
+    res.status(404).send({ status: false, msg: "Page Not Found!!!" });
+  });
 
-
-module.exports = router
+module.exports = router;
